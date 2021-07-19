@@ -1,0 +1,68 @@
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    margin: 4rem;
+
+    .todo-container {
+        display: flex;
+
+        .todo-entry {
+            margin: 0.33rem 0;
+        }
+
+        .todo-input,
+        &.todo-entry {
+            font-size: 1.33rem;
+            line-height: 2rem;
+        }
+
+        &.todo-add,
+        &.todo-entry {
+            border: 1px dashed teal; // TODO: Update color
+            background: teal; // TODO: Update color
+        }
+    }
+
+    .todo-input,
+    .todo-entry-text {
+        width: 100%;
+        border: none;
+        margin: 0.66rem;
+        cursor: text;
+
+        &.todo-entry-completed {
+            cursor: inherit;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .todo-button {
+        cursor: pointer;
+        margin: auto;
+        padding: 0.33rem;
+
+        &.todo-add-button-disabled {
+            cursor: default;
+            color: grey;
+        }
+    }
+
+    .todo-section {
+        .todo-section-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-button {
+            min-width: 1.66rem;
+            cursor: pointer;
+        }
+    }
+
+    svg {
+        font-size: 2rem;
+    }
+}
