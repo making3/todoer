@@ -1,13 +1,20 @@
-import { useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
+import {
+    fetchLocalTodoList,
+    fetchPersistedTodoList,
+    saveTodoList,
+} from '../storage';
 import TodoAdd from './TodoAdd';
 import TodoItemsList from './TodoItemsList';
 import TodoSection from './TodoSection';
 import TodoState from './TodoState';
 
 const reducer = (oldTodos, action) => {
-    const todos = oldTodos.slice();
+    const todos = oldTodos ? oldTodos.slice() : null;
 
     switch (action.type) {
+        case 'initialize':
+            return action.todos;
         case 'add':
             return [
                 ...todos,
@@ -48,8 +55,31 @@ const reducer = (oldTodos, action) => {
 };
 
 const TodoList = () => {
+    const isInitialized = useRef(false);
     const todoAddRef = useRef(null);
-    const [todos, dispatch] = useReducer(reducer, []);
+    const [todos, dispatch] = useReducer(reducer, null);
+
+    useEffect(() => {
+        if (isInitialized.current) {
+            saveTodoList(todos).catch((error) => {
+                // TODO: Visually display this error
+                console.log('Saving error ', error);
+            });
+        } else if (!todos && !isInitialized.current) {
+            fetchPersistedTodoList()
+                .then((s3Todos) => {
+                    dispatch({ type: 'initialize', todos: s3Todos });
+                })
+                .catch((error) => {
+                    // TODO: Visually display this error
+                    console.log('Persisted fetch error ', error);
+                    const localTodos = fetchLocalTodoList();
+                    dispatch({ type: 'initialize', todos: localTodos });
+                });
+        } else {
+            isInitialized.current = true;
+        }
+    }, [todos]);
 
     const handleAddEntry = (newTodoText) => {
         dispatch({ type: 'add', text: newTodoText });
@@ -70,6 +100,10 @@ const TodoList = () => {
     const handleComplete = (id) => {
         dispatch({ type: 'complete', id });
     };
+
+    if (!todos) {
+        return 'loading';
+    }
 
     return (
         <div className="todo-list">
