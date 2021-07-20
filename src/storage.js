@@ -21,5 +21,5 @@ export async function saveTodoList(todoList) {
     const rawTodoString = JSON.stringify(todoList);
 
     localStorage.setItem(TODO_LOCAL_STORAGE_NAME, rawTodoString);
-    api.saveTodoList(rawTodoString);
+    await api.saveTodoList(rawTodoString);
 }

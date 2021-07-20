@@ -71,6 +71,7 @@ export async function fetchPersistedTodoList() {
     const params = {
         Bucket: s3Bucket,
         Key: s3FileName,
+        ResponseCacheControl: 'no-cache',
     };
 
     // Create an object and upload it to the Amazon S3 bucket.
