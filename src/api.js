@@ -5,11 +5,36 @@ import {
 } from '@aws-sdk/client-s3';
 
 let s3Client;
-let s3Configuration;
+let s3Bucket;
+let s3FileName;
 
-export function initialize({ credentials, configuration }) {
-    s3Client = new S3Client({ region: configuration.region, credentials });
-    s3Configuration = configuration;
+export function initialize({ credentials, region, bucket, fileName }) {
+    const missingKeys = [];
+    if (!credentials?.accessKeyId) {
+        missingKeys.push('credentials.AWS_ACCESS_KEY');
+    }
+    if (!credentials?.secretAccessKey) {
+        missingKeys.push('credentials.AWS_ACCESS_SECRET');
+    }
+    if (!region) {
+        missingKeys.push('AWS_REGION');
+    }
+    if (!bucket) {
+        missingKeys.push('AWS_BUCKET_NAME');
+    }
+    if (!fileName) {
+        missingKeys.push('AWS_FILE_NAME');
+    }
+
+    if (missingKeys.length) {
+        throw new Error(
+            `Missing AWS configuration: [${missingKeys.join(', ')}]`
+        );
+    }
+
+    s3Client = new S3Client({ region, credentials });
+    s3Bucket = bucket;
+    s3FileName = fileName;
 }
 
 // https://github.com/aws/aws-sdk-js-v3/issues/1877#issuecomment-776187712
@@ -44,11 +69,10 @@ const streamToString = (stream) => {
 
 export async function fetchPersistedTodoList() {
     const params = {
-        Bucket: s3Configuration.bucket,
-        Key: s3Configuration.fileName,
+        Bucket: s3Bucket,
+        Key: s3FileName,
     };
 
-    // TODO: Handle errors!
     // Create an object and upload it to the Amazon S3 bucket.
     const { Body } = await s3Client.send(new GetObjectCommand(params));
     return await streamToString(Body);
@@ -56,12 +80,11 @@ export async function fetchPersistedTodoList() {
 
 export async function saveTodoList(rawTodoList) {
     const params = {
-        Bucket: s3Configuration.bucket,
-        Key: s3Configuration.fileName,
+        Bucket: s3Bucket,
+        Key: s3FileName,
         Body: rawTodoList,
     };
 
-    // TODO: Handle errors!
     // Create an object and upload it to the Amazon S3 bucket.
     await s3Client.send(new PutObjectCommand(params));
 }

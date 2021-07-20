@@ -1,6 +1,6 @@
 import * as api from './api';
 
-const TODO_STORAGE_NAME = 'todoers';
+const TODO_LOCAL_STORAGE_NAME = 'todoers';
 
 export async function fetchPersistedTodoList() {
     const persistedList = await api.fetchPersistedTodoList();
@@ -8,10 +8,10 @@ export async function fetchPersistedTodoList() {
 }
 
 export async function fetchLocalTodoList() {
-    const todoers = localStorage.getItem(TODO_STORAGE_NAME);
+    const rawTodoString = localStorage.getItem(TODO_LOCAL_STORAGE_NAME);
 
-    if (todoers) {
-        return JSON.parse(todoers);
+    if (rawTodoString) {
+        return JSON.parse(rawTodoString);
     }
 
     return [];
@@ -20,6 +20,6 @@ export async function fetchLocalTodoList() {
 export async function saveTodoList(todoList) {
     const rawTodoString = JSON.stringify(todoList);
 
-    localStorage.setItem(TODO_STORAGE_NAME, rawTodoString);
+    localStorage.setItem(TODO_LOCAL_STORAGE_NAME, rawTodoString);
     api.saveTodoList(rawTodoString);
 }

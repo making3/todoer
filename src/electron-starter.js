@@ -13,11 +13,9 @@ ipcMain.on('loadAwsConfiguration', () => {
             accessKeyId: process.env.AWS_ACCESS_KEY,
             secretAccessKey: process.env.AWS_ACCESS_SECRET,
         },
-        configuration: {
-            region: process.env.AWS_REGION,
-            bucket: process.env.AWS_BUCKET_NAME,
-            fileName: process.env.AWS_FILE_NAME,
-        },
+        region: process.env.AWS_REGION,
+        bucket: process.env.AWS_BUCKET_NAME,
+        fileName: process.env.AWS_FILE_NAME,
     });
 });
 
@@ -27,24 +25,18 @@ function createWindow() {
         height: 600,
         webPreferences: {
             contextIsolation: true,
-            enableRemoteModule: false, // turn off remote
+            enableRemoteModule: false,
             preload: path.join(__dirname, 'preload.js'),
         },
     });
     mainWindow.loadURL('http://localhost:3000');
     mainWindow.webContents.openDevTools();
 
-    mainWindow.on('closed', function () {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
+    mainWindow.on('closed', () => {
         mainWindow = null;
     });
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
 app.on('window-all-closed', function () {
@@ -62,6 +54,3 @@ app.on('activate', function () {
         createWindow();
     }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
