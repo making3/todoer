@@ -1,104 +1,41 @@
-import { useEffect, useReducer, useRef } from 'react';
-import {
-    fetchLocalTodoList,
-    fetchPersistedTodoList,
-    saveTodoList,
-} from '../storage';
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { saveTodoList } from '../api';
 import TodoAdd from './TodoAdd';
 import TodoItemsList from './TodoItemsList';
 import TodoSection from './TodoSection';
+import {
+    add,
+    complete,
+    remove,
+    save,
+    selectTodos,
+    togglePause,
+} from './todosSlice';
 import TodoState from './TodoState';
 
-const reducer = (oldTodos, action) => {
-    const todos = oldTodos ? oldTodos.slice() : null;
-
-    switch (action.type) {
-        case 'initialize':
-            return action.todos;
-        case 'add':
-            return [
-                ...todos,
-                {
-                    id: Math.random().toString(16).slice(2),
-                    state: TodoState.Active,
-                    text: action.text,
-                },
-            ];
-        case 'togglePause':
-            const index = todos.findIndex(({ id }) => id === action.id);
-            todos[index] = {
-                ...todos[index],
-                state:
-                    todos[index].state === TodoState.Active
-                        ? TodoState.Paused
-                        : TodoState.Active,
-            };
-            return todos;
-        case 'save':
-            const todoToUpdate = todos.find(({ id }) => id === action.id);
-            todoToUpdate.text = action.text;
-            return todos;
-        case 'remove':
-            const indexOfTodo = todos.findIndex(({ id }) => id === action.id);
-            todos.splice(indexOfTodo, 1);
-            return todos;
-        case 'complete':
-            const cindex = todos.findIndex(({ id }) => id === action.id);
-            todos[cindex] = {
-                ...todos[cindex],
-                state: TodoState.Completed,
-            };
-            return todos;
-        default:
-            throw new Error();
-    }
-};
-
 const TodoList = () => {
-    const isInitialized = useRef(false);
     const todoAddRef = useRef(null);
-    const [todos, dispatch] = useReducer(reducer, null);
-
-    useEffect(() => {
-        if (isInitialized.current) {
-            saveTodoList(todos).catch((error) => {
-                // TODO: Visually display this error
-                console.log('Saving error ', error);
-            });
-        } else if (!todos && !isInitialized.current) {
-            fetchPersistedTodoList()
-                .then((s3Todos) => {
-                    dispatch({ type: 'initialize', todos: s3Todos });
-                })
-                .catch((error) => {
-                    // TODO: Visually display this error
-                    console.log('Persisted fetch error ', error);
-                    const localTodos = fetchLocalTodoList();
-                    dispatch({ type: 'initialize', todos: localTodos });
-                });
-        } else {
-            isInitialized.current = true;
-        }
-    }, [todos]);
+    const todos = useSelector(selectTodos);
 
     const handleAddEntry = (newTodoText) => {
-        dispatch({ type: 'add', text: newTodoText });
+        add(newTodoText);
     };
 
     const handleSave = (id, newText) => {
-        dispatch({ type: 'save', id, text: newText });
+        save(id, newText);
         todoAddRef.current.focus();
     };
 
     const handleTogglePause = (id) => {
-        dispatch({ type: 'togglePause', id });
+        togglePause(id);
     };
     const handleRemove = (id) => {
-        dispatch({ type: 'remove', id });
+        remove(id);
     };
 
     const handleComplete = (id) => {
-        dispatch({ type: 'complete', id });
+        complete(id);
     };
 
     if (!todos) {
