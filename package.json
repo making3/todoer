@@ -20,12 +20,12 @@
   },
   "main": "src/electron-starter.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start:react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron .",
-    "dev": "concurrently \"npm:start\" \"npm:electron\""
+    "start:electron": "electron .",
+    "start": "concurrently \"npm:start:react\" \"npm:start:electron\""
   },
   "eslintConfig": {
     "extends": [
