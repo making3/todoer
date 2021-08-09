@@ -36,12 +36,12 @@ const TodoViewEntry = ({
                 <>
                     <FontAwesomeIcon
                         onClick={() => onComplete(todoItem.id)}
-                        className="todo-button"
+                        className="todo-button todo-button-check"
                         icon={faCheck}
                     />
                     <FontAwesomeIcon
                         onClick={() => onTogglePause(todoItem.id)}
-                        className="todo-button"
+                        className="todo-button todo-button-pause"
                         icon={
                             todoItem.state === TodoState.Paused
                                 ? faPlay
@@ -50,7 +50,7 @@ const TodoViewEntry = ({
                     />
                     <FontAwesomeIcon
                         onClick={() => onRemove(todoItem.id)}
-                        className="todo-button"
+                        className="todo-button todo-button-remove"
                         icon={faTrash}
                     />
                 </>

@@ -1,20 +1,26 @@
 // https://coolors.co/2f323a-cf5c36-087ca7-e3b505-05b2dc
-// palette1
-
-// onyx https://coolors.co/373a43
-$onyx-900: #1f2126;
-$onyx-700: #2b2e35;
-$onyx-500: #2f323a;
-$onyx-300: #858b9b;
-$onyx-100: #f0f0f3;
-
-$red: #cf5c36;
+// Palette
+$onyx: #373a43;
+$flame: #cf5c36;
 $cg-blue: #087ca7;
+$cerulean-crayola: #05b2dc;
+$icterine: #f7f052;
 
-// Maybe
-$yellow: #e3b505;
-$blue-2: #05b2dc;
+// Accents
+$mountain-meadow: #02c39a;
 
-$primary-color: $red;
-$text: $onyx-100;
-$background: $onyx-700;
+// Shades
+// onyx https://coolors.co/373a43
+$neutral-900: #1f2126;
+$neutral-700: #2b2e35;
+$neutral-500: $onyx;
+$neutral-300: #858b9b;
+$neutral-100: #f0f0f3;
+
+// Theme
+$text: $neutral-100;
+$background: $neutral-700;
+
+$green: $mountain-meadow;
+$yellow: $icterine;
+$red: $flame;

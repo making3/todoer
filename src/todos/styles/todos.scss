@@ -1,5 +1,7 @@
 @use '../../styles/palette';
 
+$todo-container-spacing: 1rem;
+
 .todo-list {
     display: flex;
     flex-direction: column;
@@ -8,7 +10,7 @@
     .todo-container {
         display: flex;
         &:not(.todo-add) {
-            margin: 1rem 0;
+            margin: $todo-container-spacing 0;
         }
 
         .todo-entry {
@@ -24,19 +26,19 @@
         &.todo-add {
             &,
             input {
-                color: palette.$onyx-100;
+                color: palette.$neutral-100;
                 caret-color: palette.$text;
-                background: palette.$onyx-900;
+                background: palette.$neutral-900;
             }
         }
 
         &.todo-entry {
-            background: palette.$onyx-500;
+            background: palette.$neutral-500;
 
             input {
-                color: palette.$onyx-100;
-                caret-color: palette.$onyx-100;
-                background: palette.$onyx-500;
+                color: palette.$neutral-100;
+                caret-color: palette.$neutral-100;
+                background: palette.$neutral-500;
             }
         }
     }
@@ -66,17 +68,34 @@
             cursor: default;
             color: grey;
         }
+
+        &.todo-button-check {
+            color: palette.$green;
+        }
+
+        &.todo-button-pause {
+            color: palette.$yellow;
+        }
+
+        &.todo-button-remove {
+            color: palette.$red;
+        }
     }
 
     .todo-section {
+        &.todo-section-collapsed {
+            margin-bottom: $todo-container-spacing;
+        }
+
         .todo-section-title {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
 
         .toggle-button {
-            min-width: 1.66rem;
             cursor: pointer;
+            min-width: 1.66rem;
         }
     }
 
