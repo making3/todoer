@@ -1,0 +1,6 @@
+@use 'palette';
+
+body {
+    background: palette.$background;
+    color: palette.$text;
+}

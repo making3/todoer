@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { saveTodoList } from '../api';
 import TodoAdd from './TodoAdd';
 import TodoItemsList from './TodoItemsList';
 import TodoSection from './TodoSection';

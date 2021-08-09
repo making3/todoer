@@ -1,3 +1,5 @@
+@use '../../styles/palette';
+
 .todo-list {
     display: flex;
     flex-direction: column;
@@ -5,6 +7,9 @@
 
     .todo-container {
         display: flex;
+        &:not(.todo-add) {
+            margin: 1rem 0;
+        }
 
         .todo-entry {
             margin: 0.33rem 0;
@@ -16,10 +21,23 @@
             line-height: 2rem;
         }
 
-        &.todo-add,
+        &.todo-add {
+            &,
+            input {
+                color: palette.$onyx-100;
+                caret-color: palette.$text;
+                background: palette.$onyx-900;
+            }
+        }
+
         &.todo-entry {
-            border: 1px dashed teal; // TODO: Update color
-            background: teal; // TODO: Update color
+            background: palette.$onyx-500;
+
+            input {
+                color: palette.$onyx-100;
+                caret-color: palette.$onyx-100;
+                background: palette.$onyx-500;
+            }
         }
     }
 
@@ -63,6 +81,6 @@
     }
 
     svg {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 }

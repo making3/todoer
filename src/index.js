@@ -12,6 +12,8 @@ window.api.receive('awsConfiguration', async (configuration) => {
 
     let todos;
     try {
+        // TODO: Remove 'Completed' results when adding initially loaded results
+        // TODO: Reset paused states, remove completed states on a "new day".
         todos = await fetchPersistedTodoList();
     } catch (error) {
         console.log('Persisted fetch error ', error);
