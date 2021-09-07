@@ -7,13 +7,7 @@ import TodoViewEntry from './TodoViewEntry';
 import useDraggableTodo from './useDraggableTodo';
 import TodoState from './TodoState';
 
-const TodoEntry = ({
-    onComplete,
-    onRemove,
-    onSave,
-    onTogglePause,
-    todoItem,
-}) => {
+const TodoEntry = ({ onSave, todoItem }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const handleViewToggle = () => {
@@ -52,10 +46,7 @@ const TodoEntry = ({
             ) : (
                 <TodoViewEntry
                     index={todoItem.index}
-                    onComplete={onComplete}
                     onEdit={handleViewToggle}
-                    onRemove={onRemove}
-                    onTogglePause={onTogglePause}
                     todoItem={todoItem}
                 />
             )}

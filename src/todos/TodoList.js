@@ -3,14 +3,7 @@ import { useSelector } from 'react-redux';
 import TodoAdd from './TodoAdd';
 import TodoItemsList from './TodoItemsList';
 import TodoSection from './TodoSection';
-import {
-    add,
-    complete,
-    remove,
-    save,
-    selectTodos,
-    togglePause,
-} from './todosSlice';
+import { add, save, selectTodos } from './todosSlice';
 import TodoState from './TodoState';
 
 const TodoList = () => {
@@ -26,17 +19,6 @@ const TodoList = () => {
         todoAddRef.current.focus();
     };
 
-    const handleTogglePause = (id) => {
-        togglePause(id);
-    };
-    const handleRemove = (id) => {
-        remove(id);
-    };
-
-    const handleComplete = (id) => {
-        complete(id);
-    };
-
     if (!todos) {
         return 'loading';
     }
@@ -46,10 +28,7 @@ const TodoList = () => {
             <TodoAdd onAdd={handleAddEntry} ref={todoAddRef} />
             <div className="todo-current-list">
                 <TodoItemsList
-                    onComplete={handleComplete}
-                    onRemove={handleRemove}
                     onSave={handleSave}
-                    onTogglePause={handleTogglePause}
                     todos={todos}
                     state={TodoState.Active}
                 />
@@ -57,24 +36,14 @@ const TodoList = () => {
 
             <TodoSection title="Do Later">
                 <TodoItemsList
-                    onComplete={handleComplete}
-                    onRemove={handleRemove}
                     onSave={handleSave}
-                    onTogglePause={handleTogglePause}
                     todos={todos}
                     state={TodoState.Paused}
                 />
             </TodoSection>
 
             <TodoSection title="Done">
-                <TodoItemsList
-                    onComplete={handleComplete}
-                    onRemove={handleRemove}
-                    onSave={handleSave}
-                    onTogglePause={handleTogglePause}
-                    todos={todos}
-                    state={TodoState.Completed}
-                />
+                <TodoItemsList todos={todos} state={TodoState.Completed} />
             </TodoSection>
         </div>
     );

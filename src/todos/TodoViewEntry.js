@@ -7,14 +7,9 @@ import {
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import TodoState from './TodoState';
+import { complete, remove, togglePause } from './todosSlice';
 
-const TodoViewEntry = ({
-    onComplete,
-    onEdit,
-    onRemove,
-    onTogglePause,
-    todoItem,
-}) => {
+const TodoViewEntry = ({ onEdit, todoItem }) => {
     const handleDoubleClick = (e) => {
         if (todoItem.state === TodoState.Completed) {
             return false;
@@ -35,12 +30,12 @@ const TodoViewEntry = ({
             {todoItem.state !== TodoState.Completed && (
                 <>
                     <FontAwesomeIcon
-                        onClick={() => onComplete(todoItem.id)}
+                        onClick={() => complete(todoItem.id)}
                         className="todo-button todo-button-check"
                         icon={faCheck}
                     />
                     <FontAwesomeIcon
-                        onClick={() => onTogglePause(todoItem.id)}
+                        onClick={() => togglePause(todoItem.id)}
                         className="todo-button todo-button-pause"
                         icon={
                             todoItem.state === TodoState.Paused
@@ -49,7 +44,7 @@ const TodoViewEntry = ({
                         }
                     />
                     <FontAwesomeIcon
-                        onClick={() => onRemove(todoItem.id)}
+                        onClick={() => remove(todoItem.id)}
                         className="todo-button todo-button-remove"
                         icon={faTrash}
                     />
