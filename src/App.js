@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { saveTodoList } from './storage';
 import TodoList from './todos';
 import { selectTodos } from './todos/todosSlice';
@@ -19,7 +21,11 @@ function usePersistedTodoList() {
 
 function App() {
     usePersistedTodoList();
-    return <TodoList />;
+    return (
+        <DndProvider backend={HTML5Backend}>
+            <TodoList />
+        </DndProvider>
+    );
 }
 
 export default App;

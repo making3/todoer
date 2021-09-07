@@ -60,9 +60,11 @@ $todo-container-spacing: 1rem;
     }
 
     .todo-button {
+        margin: 0;
         cursor: pointer;
         margin: auto;
         padding: 0.33rem;
+        line-height: 1.75rem;
 
         &.todo-add-button-disabled {
             cursor: default;
@@ -79,6 +81,10 @@ $todo-container-spacing: 1rem;
 
         &.todo-button-remove {
             color: palette.$red;
+        }
+
+        &.todo-button-move {
+            cursor: row-resize;
         }
     }
 

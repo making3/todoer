@@ -9,6 +9,7 @@ const TodoItemsList = ({
     todos,
 }) =>
     todos
+        .map((todo, index) => ({ ...todo, index }))
         .filter(({ state }) => state === expectedState)
         .map((todo) => (
             <TodoEntry

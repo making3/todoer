@@ -18,7 +18,8 @@ export async function fetchLocalTodoList() {
 }
 
 export async function saveTodoList(todoList) {
-    const rawTodoString = JSON.stringify(todoList);
+    const filteredTodos = todoList.filter((t) => !!t && Object.keys(t).length);
+    const rawTodoString = JSON.stringify(filteredTodos);
 
     localStorage.setItem(TODO_LOCAL_STORAGE_NAME, rawTodoString);
     await api.saveTodoList(rawTodoString);

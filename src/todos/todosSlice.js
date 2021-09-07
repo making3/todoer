@@ -15,6 +15,16 @@ const todosSlice = createSlice({
                 },
             ];
         },
+        moveTodo: (state, { payload: { fromIndex, toIndex } }) => {
+            const todoToMove = { ...state.todos[fromIndex] };
+
+            const newTodos = [
+                ...state.todos.slice(0, fromIndex).map((t) => ({ ...t })),
+                ...state.todos.slice(fromIndex + 1).map((t) => ({ ...t })),
+            ];
+            newTodos.splice(toIndex, 0, todoToMove);
+            return { ...state, todos: newTodos };
+        },
         togglePause: (state, { payload: id }) => {
             const index = state.todos.findIndex((todo) => todo.id === id);
             state.todos[index] = {
@@ -63,6 +73,12 @@ export function complete(id) {
     getStore().dispatch(todosSlice.actions.complete(id));
 }
 
-export const selectTodos = (state) => state.todos;
+export function selectTodos(state) {
+    return state.todos;
+}
+
+export function moveTodo(fromIndex, toIndex) {
+    getStore().dispatch(todosSlice.actions.moveTodo({ fromIndex, toIndex }));
+}
 
 export default todosSlice.reducer;
